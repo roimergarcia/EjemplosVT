@@ -1,0 +1,60 @@
+{
+    "RegionCapital":{
+        "nombre": "Región Capital",
+        "estados": ["Distrito Capital", "Vargas", "Miranda"],
+        "ventas": 845000,
+        "utilidad": 32.75
+       },
+    "RegionCentral":{
+        "nombre": "Región Central",
+        "estados": ["Aragua", "Carabobo", "Cojedes"],
+        "ventas": 789500,
+        "utilidad": 35.80
+       },
+    "RegionCentroOccidental":{
+        "nombre": "Región Centro Occidental",
+        "estados": ["Falcón", "Lara", "Portuguesa"],
+        "ventas": 648300,
+        "utilidad": 28.92
+       },
+    "RegionZuliana":{
+        "nombre": "Región Zuliana",
+        "estados": ["Zulia"],
+        "ventas": 384000,
+        "utilidad": 30.28
+       },
+    "RegionLosAndes":{
+        "nombre": "Región Los Andes",
+        "estados": ["Mérida", "Táchira", "Trujillo", "Barinas"],
+        "ventas": 485600,
+        "utilidad": 26.84
+       },
+    "RegionNororiental":{
+        "nombre": "Región Nor-Oriental",
+        "estados": ["Anzoátegui", "Monagas", "Sucre"],
+        "ventas": 465600,
+        "utilidad": 26.87
+       },
+    "RegionLosLlanos":{
+        "nombre": "Región Los Llanos",
+        "estados": ["Apure (excepto el municipio Páez)"],
+        "ventas": 422000,
+        "utilidad": 26.87
+       },
+    "RegionGuayana":{
+        "nombre": "Región Guayana",
+        "estados": ["Bolivar", "Amazonas", "Delta Amacuro"],
+        "ventas": 354700,
+        "utilidad": 24.75
+       },
+    "RegionInsular":{
+        "nombre": "Región Insular",
+        "estados": ["Nueva Esparta", "Dependencias Federales"],
+        "ventas": 127200,
+        "utilidad": 34.15
+       }
+}
+
+
+
+

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <title>Ejemplo básico de sonido con javascript</title>
+        
+        <script type="text/javascript">
+          window.addEventListener('DOMContentLoaded', function(){
+              
+          //Disponible en: http://es.wikipedia.org/wiki/Archivo:Sound-of-dog.ogg
+            var rutaLadrido = 'http://upload.wikimedia.org/wikipedia/commons/c/ce/Sound-of-dog.ogg';
+          
+          //Disponible en: http://commons.wikimedia.org/wiki/File:Divertissement_pour_flute.ogg
+            var rutaFlauta = 'http://upload.wikimedia.org/wikipedia/commons/c/ce/Sound-of-dog.ogg';
+                
+            var sonido = new Audio();
+            var consola = document.getElementById('consola');
+            
+            sonido.addEventListener('canplaythrough', function(){
+              consola.innerHTML += 'El audio puede iniciar sin interrupciones...<br/>';
+            }, false);
+            
+            sonido.addEventListener('canplay', function(){
+              consola.innerHTML += 'El audio puede iniciar, pero podría requerir buffering...<br/>';
+            }, false);
+            
+            sonido.addEventListener('play', function(){
+              consola.innerHTML += '¡El audio acaba de iniciar!<br/>';
+            }, false);
+            
+            sonido.addEventListener('ended', function(){
+                consola.innerHTML += '¡El audio acaba de terminar!<br/>';
+            }, false);
+            
+            sonido.src = rutaLadrido;
+            
+            document.getElementById('iniciar').addEventListener('click', function(){
+              sonido.play();  
+            }, false);
+                   
+          }, false);
+           
+        </script>
+        
+        <style type="text/css">
+          #consola{
+            border: 1px solid;
+            width: 500px;
+            height: 100px;
+            overflow-y: scroll;
+            margin: 5px;
+          }
+          
+          
+        </style>
+        
+    </head>
+    <body>
+        <h1>Ejemplo básico de sonido con javascript</h1>
+        <br/> 
+        <div id="consola"></div>
+        <input type="button" id="iniciar" value="Iniciar" />
+    </body>
+</html>

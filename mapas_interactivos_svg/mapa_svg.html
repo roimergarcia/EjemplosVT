@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Mapa Interactivo SVG</title>
+    <script type="text/javascript" src="../externas/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="../externas/jquery.svg.min.js"></script>
+    <script type="text/javascript" src="../externas/jquery.svgdom.min.js"></script>
+ 
+    <style type="text/css">
+        #svgMapa{
+            width: 625px;
+            height: 465px;
+        }
+        .Region:hover, .Region:hover path{
+            fill: #DDFFFF !important;
+            stroke: black !important;
+        }
+    </style>
+ 
+      
+    <script type="text/javascript">
+      
+      //jquery.svg: utiliza $.browser, pero éste fue removido
+      //de jQuery desde la versión 1.9: esto es solo un hack "temporal"
+      if(!$.browser){
+        $.browser = {
+          msie:false,
+          opera:false,
+          mozilla:true
+        }
+      };
+      
+      //Creamos un objeto global para guardar nuestros datos
+      window.infoMapa = {
+          regionActiva: '',
+          colores:{},
+          datos: {}
+      };
+       
+      //Función encargada de inicializar el mapa
+      window.inicializarMapa = function inicializarMapa(svgObj){
+             
+        //Cargamos los datos de ventas por región
+        //desde nuestro archivo JSON
+        jQuery.getJSON('datos_venezuela.json', function(data, textStatus, jqXHR){
+          console.log(data)
+          infoMapa.datos = data;
+        });
+       
+        //Guardamos los colores originales de cada región, los
+        //usaremos luego para "desactivar" la región activa
+        jQuery('.Region').each(function(index, element){
+          infoMapa.colores[element.id] = jQuery(element).css('fill');
+        });
+       
+        jQuery('.Region').on('click', function(e){
+          var datosRegion,
+              RegionNueva;
+               
+          //Reestablece los colores de la región anterior
+          if(infoMapa.regionActiva!==''){
+            jQuery('#'+infoMapa.regionActiva).css({
+              'fill': infoMapa.colores[infoMapa.regionActiva],
+              'stroke-width': 0.5
+            });
+       
+            //Caso especial de #RegionInsular: es un path
+            //compuesto, y debemos afectar a los subpaths también
+            jQuery('#'+infoMapa.regionActiva).find('path').css({
+              'fill': infoMapa.colores[infoMapa.regionActiva],
+              'stroke-width': 0.5
+            });
+       
+          };
+       
+          RegionNueva = jQuery(this);
+       
+          //guardamos el nombre de la región activa:
+          infoMapa.regionActiva = RegionNueva.attr('id');
+       
+          //Resaltamos al zona seleccionada (y los subpaths):
+          RegionNueva.css({
+            'fill': '#1E1E64',
+            'stroke-width': 1
+          }).find('path').css({
+            'fill': '#1E1E64',
+            'stroke-width': 1
+          });
+       
+          //Y mostramos los datos en el cuadro de detalle:
+          datosRegion = infoMapa.datos[infoMapa.regionActiva];
+       
+          jQuery('#divDatos').html('')
+            .append(jQuery('<strong></strong>').text(datosRegion.nombre))
+            .append(jQuery('<br/>'))
+            .append(jQuery('<span></span>').text('Conformada por: ' + datosRegion.estados.join(', ') ))
+            .append(jQuery('<br/>'))
+            .append(jQuery('<span></span>').text('Ventas: ' + datosRegion.ventas + ' VEB'))
+            .append(jQuery('<br/>'))
+            .append(jQuery('<span></span>').text('Utilidad: ' + datosRegion.utilidad + '%'));
+       
+          //y no queremos que #divDatos se entere de este clic: 
+          e.stopPropagation();
+        });
+      };
+       
+      //Manejadores de eventos
+      jQuery(document).ready(function(){  
+       
+          //Carga el mapa y lo inicializa 
+          jQuery('#svgMapa').svg({
+              'loadURL': 'Venezuela_Geopolitico.svg', 
+              'onLoad': window.inicializarMapa
+          });
+       
+          //Si un clic en el mapa no viene de ninguna de las 9
+          //regiones se borra el detalle y quita el resaltado.
+          jQuery('#svgMapa').on('click', 'path', function(e){
+       
+              if(infoMapa.regionActiva == ''){
+                  return;
+              }
+               
+              //Quita el resaltado de la región activa
+              jQuery('#'+infoMapa.regionActiva).css({
+                  'fill':  infoMapa.colores[infoMapa.regionActiva],
+                  'stroke-width': 0.5
+              }).find('path').css({
+                  'fill':  infoMapa.colores[infoMapa.regionActiva],
+                  'stroke-width': 0.5
+              });
+       
+              //Y borra el cuadro de detalle
+              jQuery('#divDatos').html('');
+       
+              infoMapa.regionActiva = '';
+       
+          });
+      });
+    
+    </script>
+ 
+</head>
+<body>
+    <h2>Ventas en Venezuela por Región</h2>
+    <div id="svgMapa" >
+ 
+    </div>
+    <div id="divDatos">
+ 
+    </div>
+</body>
+</html>
