@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Consultar usuario con imagen</title>
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      .Seccion {
+        width: 400px;
+        margin: 0.5em;
+        background-color: #DDDDDD;
+      }
+      img {
+        background-color: #FFFFFF;
+        border: 1px solid #444444;
+      }
+      #buscarImagen {
+        vertical-align: top;
+      }
+    </style>
+
+  </head>
+  <body>
+    <!-- Layout:   -->
+    <div class="Seccion">
+      <h2>Consultar Usuario</h2>
+      <label for="idConsulta" >ID (entero):</label>
+      <input id="idConsulta" type="text" />
+      <input id="nombreConsulta" type="text" disabled/>
+      <br/>
+      <input id="buscarImagen" type="button" value="buscar..." />
+      <img id="imagenEncontrada" src="" />      
+    </div>
+    
+
+    <script type="text/javascript" src="../externas/jquery-2.0.3.min.js"></script>
+    <script>
+   
+      jQuery('#buscarImagen').on('click', function(e) {
+        e.preventDefault();
+        
+        var parametros = {
+          usuario_id : jQuery('#idConsulta').val()
+        };
+        
+        $.ajax('buscar_imagen.php', {
+          type : 'post',
+          data : parametros,
+          dataType : "json",
+          success : function(data) {
+            if(data.error){
+              console.log('Error controlado.', data.mensaje);
+              $('#nombreConsulta').val('[error]');
+              return;
+            };
+            
+            $('#nombreConsulta').val(data.nombre);
+            if(data.ok){
+              $('#imagenEncontrada').attr('src', data.imagen);
+            }else{
+              $('#imagenEncontrada').attr('src', '');
+            };
+            
+          },
+          error : function(data) {
+            console.log('Error no controlado.', data);
+          }
+        });
+        return false;
+      }); 
+    </script>
+  </body>
+</html>

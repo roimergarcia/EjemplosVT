@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Guardar usuario con imagen</title>
+    <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      .Seccion {
+        width: 400px;
+        margin: 0.5em;
+        background-color: #DDDDDD;
+      }
+      #vistaPrevia {
+        background-color: #FFFFFF;
+        vertical-align: top;
+        border: 1px solid #444444;
+      }
+      
+    </style>
+
+  </head>
+  <body>
+    <!-- Layout  -->
+    <div class="Seccion">
+      <h2>Crear/Actualizar Usuario</h2>
+      <label for="idUsuario" >ID (entero):</label>
+      <input id="idUsuario" type="text" />
+      <br/>
+      <label for="nombreUsuario" >Nombre:</label>
+      <input id="nombreUsuario" type="text" />
+      <br/>
+      <label for="imagenUsuario" >Imagen:</label>
+      <input id="seleccionarImagen" type="file" />
+      <img id="vistaPrevia" />
+      <br/>
+      <input id="actualizarUsuario" type="button" value="Actualizar Usuario..." />
+    </div>
+    
+    
+    <!-- Javascript  -->
+    <script type="text/javascript" src="../externas/jquery-2.0.3.min.js"></script>
+    <script>
+    
+      jQuery('#seleccionarImagen').on('change', function(e) {
+        var Lector,
+            oFileInput = this;
+    
+        if (oFileInput.files.length === 0) {
+          return;
+        };
+    
+        Lector = new FileReader();
+        Lector.onloadend = function(e) {
+          jQuery('#vistaPrevia').attr('src', e.target.result);          
+        };
+        Lector.readAsDataURL(oFileInput.files[0]);
+    
+      });
+    
+      jQuery('#actualizarUsuario').on('click', function(e) {
+        e.preventDefault();
+        var parametros = {
+          id : jQuery('#idUsuario').val(),
+          nombre : jQuery('#nombreUsuario').val(),
+          imagen : jQuery('#vistaPrevia').attr('src')
+        };
+        $.ajax('guardar_imagen.php', {
+          type : 'post',
+          data : parametros,
+          success : function(data) {
+            if(data.error){
+              console.log('Error controlado.', data.mensaje);
+              return;
+            };
+            
+            console.log('Los datos del usuario ' + parametros.id + ' fueron guardados.');
+            
+          },
+          error : function(data) {
+            console.log('Error no controlado.', data);
+          }
+        });
+        return false;
+      });
+    
+    </script>
+  </body>
+</html>
