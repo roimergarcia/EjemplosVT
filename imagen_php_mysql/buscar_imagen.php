@@ -1,18 +1,25 @@
 <?php
 include_once 'utilidades.php';
 
-//Buscamos la imagen asociada al usuario indicado
-$usuario_id = $_POST["usuario_id"];
-$sql = "select id, imagen, nombre from usuarios where id=$usuario_id";
+//Leemos el id del usuario solicitado
+$id = $_POST["usuario_id"];
 
-$data = mysql_query($sql) or mostrar_error("Falló la consulta: " . mysql_error());
+//Abrimos una conexion a la base de datos
+$conexion = abrirConexion();
 
-if (mysql_num_rows($data) == 0) {
+//escapamos antes de armar la consulta
+$id = mysqli_escape_string($conexion, $id);
+
+$sql = "select id, imagen, nombre from usuarios where id=$id";
+
+$data = mysqli_query($conexion, $sql) or mostrar_error("Falló la consulta: " . mysqli_error());
+
+if (mysqli_num_rows($data) == 0) {
   //El usuario no existe:
-  $arr = array("ok" => false,"id" => "$usuario_id", "nombre" => "[N/A]", "imagen" => null);
+  $arr = array("ok" => false,"id" => "$id", "nombre" => "[N/A]", "imagen" => null);
 }else{
   //El usuario si existe:
-  $row = mysql_fetch_assoc($data);
+  $row = mysqli_fetch_assoc($data);
   $arr = array("ok" => true,"id" => $row["id"], "nombre" => $row["nombre"], "imagen" => $row["imagen"]);
 }
 
