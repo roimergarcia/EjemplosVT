@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Espacio entre elementos inline/inline-block: Problema y 5 soluciones</title>
+    <!-- 
+      Variable Técnica http://variabletecnica.com/
+      Ejemplo del artículo "Como remover espacio extra entre img, il y otros elementos inline"
+      Disponible en: http://variabletecnica.com/2014/07/05/remover-espacio-extra-entre-img-il-y-otros-inline/  
+      
+      El contenido generado por el autor de este archivo está disponible bajo licencia 
+      CC BY-SA 3.0, disponible en http://creativecommons.org/licenses/by-sa/3.0/deed.es
+      y puede ser usado, derivado y compartido bajo los términos indicados en la misma. 
+      Las librerías externas y otros contenidos no generados por el autor de este archivo 
+      son propiedad de sus respectivos dueños y están regidos por las licencias que estos 
+      hayan dispuesto.
+      
+      Autor: Roimer Garcia
+      Fecha: 07-Jul-2014
+    -->
+      
+    <style type="text/css">
+      div:nth-child(2n) {
+          background-color:#888;
+      }
+      div:nth-child(2n+1) {
+          background-color:#777;
+      }
+      #contenedor2 {
+          font-size:0px;
+      }
+      #contenedor3 {
+          height:40px;
+      }
+      #contenedor3 img {
+          float:left;
+      }
+      #contenedor4::before, #contenedor4::after {
+          clear:both;
+          display:block;
+          content:"";
+      }
+      #contenedor4 img {
+          float:left;
+      }
+      #contenedor5 {
+          /* Modelo viejo: iOS 6, Safari 3.1-6 */
+          display: -webkit-box;
+          /* Modelo viejo: Firefox 19 */
+          display: -moz-box;
+          /* IE 10 */
+          display: -ms-flexbox;
+          /* Modelo nuevo - Chrome */
+          display: -webkit-flex;
+          /* Modelo nuevo, según especificación */
+          display: flex;
+          height:flexbox;
+      }
+    </style>
+
+  </head>
+  <body>
+    <h1>Espacio entre elementos inline/inline-block: Problema y 5 soluciones</h1>
+        <!-- El problema: los "espacios en blanco" antes y después de los img generan un espacio entre las imagenes en pantalla. -->
+    <div id="contenedor0">
+        <img src="http://dummyimage.com/100x40/000/fff&text=A" />
+        <img src="http://dummyimage.com/100x40/44f/000&text=B" />
+    </div>
+    <!-- Sol 1: eliminar los espacios del html -->
+    <div id="contenedor1"><img src="http://dummyimage.com/100x40/f44/fff&text=1A" /><img src="http://dummyimage.com/100x40/ff4/000&text=1B" /></div>
+    <!-- Sol 2: establecer el tamaño de fuente a 0px -->
+    <div id="contenedor2">
+        <img src="http://dummyimage.com/100x40/622/fff&text=2A" />
+        <img src="http://dummyimage.com/100x40/f04/000&text=2B" />
+    </div>
+    <!-- Sol 3: "flotar" las imagenes y dar altura al div-->
+    <div id="contenedor3">
+        <img src="http://dummyimage.com/100x40/0ff/444&text=3A" />
+        <img src="http://dummyimage.com/100x40/f4f/000&text=3B" />
+    </div>
+    <!-- Sol 4: "flotar" las imagenes y usar clear en el div-->
+    <div id="contenedor4">
+        <img src="http://dummyimage.com/100x40/880/fff&text=4A" />
+        <img src="http://dummyimage.com/100x40/44f/000&text=4B" />
+    </div>
+    <!-- Sol 5 : usar "display:flex" en el div-->
+    <div id="contenedor5">
+        <img src="http://dummyimage.com/100x40/262/fff&text=5A" />
+        <img src="http://dummyimage.com/100x40/4f0/000&text=5B" />
+    </div>
+  </body>
+</html>
