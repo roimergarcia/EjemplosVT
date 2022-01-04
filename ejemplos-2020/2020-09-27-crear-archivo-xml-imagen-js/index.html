@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VT - Crear archivos XML y de imagen con Javascript</title>
+    <style>
+        .datos-personales{
+            display: grid;
+            grid-template-columns: 180px 200px;
+            row-gap: 1rem;
+            margin: 1rem;
+            line-height: 1.5rem;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <form class="datos-personales">
+        <label for="nombre">Nombre:</label>
+        <input id="nombre" type="text" value="Juan Carlos Gonzales"/>
+        <label for="fecha">Fecha de Nacimiento:</label>
+        <input id="fecha" type="date" value="1982-01-01"/>
+        <label for="telefono">Teléfono:</label>
+        <input id="telefono" type="tel" value="0800-999.0123"/>
+        <label for="direccion">Dirección:</label>
+        <textarea id="direccion" rows="4">Av. Principal con calle 18, Urb. La Esmeralda. Edificio Roma & paris, Apto. #12-B</textarea>
+        <label for="comentario">Comentario:</label>
+        <textarea id="comentario" rows="4">El documento debe contener caracteres &lt;especiales&gt; para mostrar como los convierte en el XML generado.</textarea>
+        <button type="button" id="boton-descargar">Descargar Archivo</button>
+    </form>
+    <script src="script.js"></script>
+</body>
+</html>
